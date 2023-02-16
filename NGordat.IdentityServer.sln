@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NGordat.IdentityServer.STS", "src\NGordat.IdentityServer.STS\NGordat.IdentityServer.STS.csproj", "{1BF94FC4-1471-4000-985A-AD344C08C661}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NGordat.Razor.Helpers", "src\NGordat.Razor.Helpers\NGordat.Razor.Helpers.csproj", "{3F654FFB-CD46-4C52-9DBB-7C191231AD76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{1BF94FC4-1471-4000-985A-AD344C08C661}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BF94FC4-1471-4000-985A-AD344C08C661}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BF94FC4-1471-4000-985A-AD344C08C661}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F654FFB-CD46-4C52-9DBB-7C191231AD76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F654FFB-CD46-4C52-9DBB-7C191231AD76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F654FFB-CD46-4C52-9DBB-7C191231AD76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F654FFB-CD46-4C52-9DBB-7C191231AD76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

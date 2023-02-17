@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\lib\.gitignore" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\NGordat.Razor.Helpers\NGordat.Razor.Helpers.csproj" />
   </ItemGroup>
 

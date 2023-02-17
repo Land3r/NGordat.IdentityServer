@@ -5,7 +5,9 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NGordat.IdentityServer.STS", "src\NGordat.IdentityServer.STS\NGordat.IdentityServer.STS.csproj", "{1BF94FC4-1471-4000-985A-AD344C08C661}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NGordat.Razor.Helpers", "src\NGordat.Razor.Helpers\NGordat.Razor.Helpers.csproj", "{3F654FFB-CD46-4C52-9DBB-7C191231AD76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NGordat.Razor.Helpers", "src\NGordat.Razor.Helpers\NGordat.Razor.Helpers.csproj", "{3F654FFB-CD46-4C52-9DBB-7C191231AD76}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{1AFC96B3-48E7-4507-8479-56B21BD19FCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +26,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1BF94FC4-1471-4000-985A-AD344C08C661} = {1AFC96B3-48E7-4507-8479-56B21BD19FCE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3122D9B7-0833-442B-B191-90A5ECA96A46}

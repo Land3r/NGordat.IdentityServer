@@ -11,7 +11,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Duende.IdentityServer" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NGordat.Identity.Domain\NGordat.Identity.Domain.csproj" />
     <ProjectReference Include="..\NGordat.Razor.Helpers\NGordat.Razor.Helpers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\Pages\" />
   </ItemGroup>
 
 </Project>

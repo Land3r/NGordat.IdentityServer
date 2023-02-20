@@ -5,8 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
-using Skoruba.Duende.IdentityServer.Admin.EntityFramework.Interfaces;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +13,8 @@ using System.Threading.Tasks;
 
 namespace NGordat.IdentityServer.Dal
 {
-    public class IdentityServerConfigurationDbContext : ConfigurationDbContext<IdentityServerConfigurationDbContext>, IAdminConfigurationDbContext
-    {
+    public class IdentityServerConfigurationDbContext : DbContext
+        {
         public IdentityServerConfigurationDbContext(DbContextOptions<IdentityServerConfigurationDbContext> options)
             : base(options)
         {

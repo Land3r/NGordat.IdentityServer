@@ -2,11 +2,9 @@
 
 using Microsoft.EntityFrameworkCore;
 
-using Skoruba.Duende.IdentityServer.Admin.EntityFramework.Interfaces;
-
 namespace NGordat.IdentityServer.Dal
 {
-    public class IdentityServerPersistedGrantDbContext : PersistedGrantDbContext<IdentityServerPersistedGrantDbContext>, IAdminPersistedGrantDbContext
+    public class IdentityServerPersistedGrantDbContext : DbContext
     {
         public IdentityServerPersistedGrantDbContext(DbContextOptions<IdentityServerPersistedGrantDbContext> options)
             : base(options)

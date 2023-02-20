@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NGordat.Identity.Domain\NGordat.Identity.Domain.csproj" />
+    <ProjectReference Include="..\NGordat.IdentityServer.Dal\NGordat.IdentityServer.Dal.csproj" />
     <ProjectReference Include="..\NGordat.Razor.Helpers\NGordat.Razor.Helpers.csproj" />
   </ItemGroup>
 

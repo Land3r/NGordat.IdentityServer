@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace NGordat.Identity.Domain.Entities
 {
-    public class UserIdentityUserClaim : IdentityUserClaim<string>
+    public class UserIdentityUserClaim<TKey> : IdentityUserClaim<TKey>
+        where TKey : IEquatable<TKey>
     {
     }
 }

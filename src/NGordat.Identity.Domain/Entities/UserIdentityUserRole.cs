@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace NGordat.Identity.Domain.Entities
 {
-    public class UserIdentityUserRole : IdentityUserRole<string>
+    public class UserIdentityUserRole<TKey> : IdentityUserRole<TKey>
+        where TKey : IEquatable<TKey>
     {
 
     }

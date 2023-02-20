@@ -14,7 +14,7 @@
         name = Context.User?.GetDisplayName();
     }
 }
-@inject SignInManager<UserIdentity> SignInManager
+@inject SignInManager<UserIdentity<Guid>> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

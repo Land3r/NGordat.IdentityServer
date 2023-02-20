@@ -1,9 +1,15 @@
+using NGordat.IdentityServer.Dal.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+// Register the Db context used by STS and specifies the primary key type for our user system.
+builder.Services.RegisterDbContexts<Guid>(builder.Configuration);
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

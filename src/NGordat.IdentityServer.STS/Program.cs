@@ -23,6 +23,9 @@ builder.Services.RegisterDbContexts<Guid>(builder.Configuration);
 // Register authentication and Identity Server
 builder.Services.RegisterAuthentication<Guid>(builder.Configuration);
 
+// Register HSTS options
+builder.Services.RegisterHstsOptions();
+
 // Register pages and localization
 builder.Services.AddRazorWithLocalization<UserIdentity<Guid>, Guid>(builder.Configuration);
 
@@ -31,17 +34,27 @@ builder.Services.RegisterAuthorization(builder.Configuration);
 
 var app = builder.Build();
 
+app.UseCookiePolicy();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
+app.UsePathBase(app.Configuration.GetValue<string>("BasePath"));
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseAuthentication();
+
+// Add custom security headers
+app.UseSecurityHeaders(app.Configuration);
 
 app.UseRouting();
 

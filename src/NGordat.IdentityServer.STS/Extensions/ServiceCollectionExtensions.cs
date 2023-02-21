@@ -278,5 +278,14 @@ namespace NGordat.IdentityServer.STS.Extensions
             return pageBuilder;
         }
 
+        public static void RegisterHstsOptions(this IServiceCollection services)
+        {
+            services.AddHsts(options =>
+            {
+                options.Preload = true;
+                options.IncludeSubDomains = true;
+                options.MaxAge = TimeSpan.FromDays(365);
+            });
+        }
     }
 }

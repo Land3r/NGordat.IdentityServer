@@ -9,5 +9,7 @@
     public class ConfigurationConsts
     {
         public const string ResourcesPath = "Resources";
+
+        public const string CspTrustedDomainsKey = "CspTrustedDomains";
     }
 }

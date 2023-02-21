@@ -1,0 +1,21 @@
+﻿@using NGordat.IdentityServer.STS.Configuration.Interfaces;
+@using NGordat.IdentityServer.STS.Services;
+@inject IRootConfiguration RootConfiguration
+
+@if (!string.IsNullOrEmpty(Context.Request.Cookies[ThemeHelpers.CookieThemeKey]) && Context.Request.Cookies[ThemeHelpers.CookieThemeKey] != ThemeHelpers.DefaultTheme)
+{
+    <link rel="stylesheet" href="@string.Concat("https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.2.3/", Context.Request.Cookies[ThemeHelpers.CookieThemeKey], "/bootstrap.min.css")"
+      onerror="this.onerror=null;this.href='@Url.Content(string.Concat("~/lib/bootswatch/", Context.Request.Cookies[ThemeHelpers.CookieThemeKey], "/bootstrap.min.css"))';" />
+    @*<link href="@UrlHelper.Content(string.Concat("~/dist/css/themes/",Context.Request.Cookies[ThemeHelpers.CookieThemeKey],"/bootstrap.min.css"))" asp-append-version="true" rel="stylesheet" />*@
+}
+else if (!string.IsNullOrEmpty(RootConfiguration.AdminConfiguration.Theme))
+{
+    <link href="@Url.Content(string.Concat("~/dist/css/themes/",RootConfiguration.AdminConfiguration.Theme,"/bootstrap.min.css"))" asp-append-version="true" rel="stylesheet" />
+}
+
+
+
+
+
+
+

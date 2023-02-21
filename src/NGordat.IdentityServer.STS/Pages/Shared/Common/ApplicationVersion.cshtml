@@ -1,0 +1,10 @@
+﻿@using System.Reflection
+
+@{
+    var runtimeVersion = typeof(Program)
+        .GetTypeInfo()
+        .Assembly
+        .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+}
+
+@runtimeVersion

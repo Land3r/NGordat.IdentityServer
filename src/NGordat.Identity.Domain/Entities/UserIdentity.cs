@@ -3,6 +3,8 @@
 
 using Microsoft.AspNetCore.Identity;
 
+using System;
+
 namespace NGordat.Identity.Domain.Entities
 {
     public class UserIdentity<TKey> : IdentityUser<TKey>

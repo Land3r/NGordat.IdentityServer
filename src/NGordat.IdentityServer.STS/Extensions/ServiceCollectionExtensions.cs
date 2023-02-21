@@ -1,11 +1,22 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Duende.IdentityServer.Configuration;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using NGordat.Helpers.Hosting.Authentication;
 using NGordat.Helpers.Hosting.Extensions;
 using NGordat.Identity.Domain.Entities;
 using NGordat.IdentityServer.Dal;
+using NGordat.IdentityServer.Dal.Interfaces;
+using NGordat.IdentityServer.STS.Configuration;
+using NGordat.IdentityServer.STS.Configuration.Interfaces;
+using NGordat.IdentityServer.STS.Constants;
 using NGordat.IdentityServer.STS.Services;
+using NGordat.IdentityServer.STS.Services.Localization;
+using System.Globalization;
 
 namespace NGordat.IdentityServer.STS.Extensions
 {
@@ -13,14 +24,14 @@ namespace NGordat.IdentityServer.STS.Extensions
     {
         public static void RegisterAuthentication<TKey>(this IServiceCollection services, IConfiguration configuration)
             where TKey : IEquatable<TKey>
-{
+        {
             services.AddAuthenticationServices<IdentityServerIdentityDbContext<TKey>, UserIdentity<TKey>, UserIdentityRole<TKey>>(configuration);
-            //services.AddIdentityServer<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, UserIdentity<TKey>>(services.AddAuthenticationServices<IdentityServerIdentityDbContext<TKey>, UserIdentity<TKey>, UserIdentityRole<TKey>>(configuration));
+            services.AddIdentityServer<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, UserIdentity<TKey>>(configuration);
         }
 
-private static void AddAuthenticationServices<TIdentityDbContext, TUserIdentity, TUserIdentityRole>(this IServiceCollection services, IConfiguration configuration) where TIdentityDbContext : DbContext
-    where TUserIdentity : class
-    where TUserIdentityRole : class
+        private static void AddAuthenticationServices<TIdentityDbContext, TUserIdentity, TUserIdentityRole>(this IServiceCollection services, IConfiguration configuration) where TIdentityDbContext : DbContext
+            where TUserIdentity : class
+            where TUserIdentityRole : class
         {
             var loginConfiguration = configuration.GetLoginConfiguration();
             var registrationConfiguration = configuration.GetRegistrationConfiguration();
@@ -146,5 +157,126 @@ private static void AddAuthenticationServices<TIdentityDbContext, TUserIdentity,
             //    });
             //}
         }
+
+        /// <summary>
+        /// Add configuration for Duende IdentityServer
+        /// </summary>
+        /// <typeparam name="TUserIdentity"></typeparam>
+        /// <typeparam name="TConfigurationDbContext"></typeparam>
+        /// <typeparam name="TPersistedGrantDbContext"></typeparam>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        public static IIdentityServerBuilder AddIdentityServer<TConfigurationDbContext, TPersistedGrantDbContext, TUserIdentity>(
+            this IServiceCollection services,
+            IConfiguration configuration)
+            where TPersistedGrantDbContext : DbContext, IAdminPersistedGrantDbContext
+            where TConfigurationDbContext : DbContext, IAdminConfigurationDbContext
+            where TUserIdentity : class
+        {
+            var configurationSection = configuration.GetSection(nameof(IdentityServerOptions));
+
+            var identityServerOptions = configurationSection.Get<IdentityServerOptions>();
+
+            var builder = services.AddIdentityServer(options =>
+            {
+                configurationSection.Bind(options);
+
+                options.DynamicProviders.SignInScheme = IdentityConstants.ExternalScheme;
+                options.DynamicProviders.SignOutScheme = IdentityConstants.ApplicationScheme;
+            })
+            .AddConfigurationStore<TConfigurationDbContext>()
+            .AddOperationalStore<TPersistedGrantDbContext>()
+            .AddAspNetIdentity<TUserIdentity>();
+
+            services.ConfigureOptions<OpenIdClaimsMappingConfig>();
+
+            if (!identityServerOptions.KeyManagement.Enabled)
+            {
+                builder.AddCustomSigningCredential(configuration);
+                builder.AddCustomValidationKey(configuration);
+            }
+
+            builder.AddExtensionGrantValidator<DelegationGrantValidator>();
+
+            return builder;
+        }
+
+        public static void RegisterAuthorization(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddAuthorizationPolicies(configuration);
+        }
+
+        /// <summary>
+        /// Add authorization policies
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        public static void AddAuthorizationPolicies(this IServiceCollection services,
+                IConfiguration configuration)
+        {
+            services.AddAuthorization(options =>
+            {
+                // TODO: Vérifier la syntaxe
+                string? administrationRole = configuration.GetValue("AdminConfiguration__AdministrationRole", string.Empty);
+
+
+                options.AddPolicy(AuthorizationConsts.AdministrationPolicy,
+                    policy => policy.RequireRole(administrationRole));
+            });
+        }
+
+
+        /// <summary>
+        /// Register services for MVC and localization including available languages
+        /// </summary>
+        /// <param name="services"></param>
+        public static IMvcBuilder AddRazorWithLocalization<TUser, TKey>(this IServiceCollection services, IConfiguration configuration)
+            where TUser : IdentityUser<TKey>
+            where TKey : IEquatable<TKey>
+        {
+            services.AddLocalization(opts => { opts.ResourcesPath = ConfigurationConsts.ResourcesPath; });
+
+            services.TryAddTransient(typeof(IGenericControllerLocalizer<>), typeof(GenericControllerLocalizer<>));
+
+            var pageBuilder = services.AddRazorPages(o =>
+            {
+            }).AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix, opts =>
+            {
+                opts.ResourcesPath = ConfigurationConsts.ResourcesPath;
+            })
+            .AddDataAnnotationsLocalization()
+            .ConfigureApplicationPartManager(m =>
+            {
+                m.FeatureProviders.Add(new GenericTypeControllerFeatureProvider<TUser, TKey>());
+            });
+
+            var cultureConfiguration = configuration.GetSection(nameof(CultureConfiguration)).Get<CultureConfiguration>();
+            services.Configure<RequestLocalizationOptions>(
+                opts =>
+                {
+                    // If cultures are specified in the configuration, use them (making sure they are among the available cultures),
+                    // otherwise use all the available cultures
+                    var supportedCultureCodes = (cultureConfiguration?.Cultures?.Count > 0 ?
+                        cultureConfiguration.Cultures.Intersect(CultureConfiguration.AvailableCultures) :
+                        CultureConfiguration.AvailableCultures).ToArray();
+
+                    if (!supportedCultureCodes.Any()) supportedCultureCodes = CultureConfiguration.AvailableCultures;
+                    var supportedCultures = supportedCultureCodes.Select(c => new CultureInfo(c)).ToList();
+
+                    // If the default culture is specified use it, otherwise use CultureConfiguration.DefaultRequestCulture ("en")
+                    var defaultCultureCode = string.IsNullOrEmpty(cultureConfiguration?.DefaultCulture) ?
+                        CultureConfiguration.DefaultRequestCulture : cultureConfiguration?.DefaultCulture;
+
+                    // If the default culture is not among the supported cultures, use the first supported culture as default
+                    if (!supportedCultureCodes.Contains(defaultCultureCode)) defaultCultureCode = supportedCultureCodes.FirstOrDefault();
+
+                    opts.DefaultRequestCulture = new RequestCulture(defaultCultureCode);
+                    opts.SupportedCultures = supportedCultures;
+                    opts.SupportedUICultures = supportedCultures;
+                });
+
+            return pageBuilder;
+        }
+
     }
 }

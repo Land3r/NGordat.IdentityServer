@@ -4,7 +4,7 @@ using Duende.IdentityServer.EntityFramework.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-
+using NGordat.IdentityServer.Dal.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +13,8 @@ using System.Threading.Tasks;
 
 namespace NGordat.IdentityServer.Dal
 {
-    public class IdentityServerConfigurationDbContext : DbContext
-        {
+    public class IdentityServerConfigurationDbContext : ConfigurationDbContext<IdentityServerConfigurationDbContext>, IAdminConfigurationDbContext
+    {
         public IdentityServerConfigurationDbContext(DbContextOptions<IdentityServerConfigurationDbContext> options)
             : base(options)
         {

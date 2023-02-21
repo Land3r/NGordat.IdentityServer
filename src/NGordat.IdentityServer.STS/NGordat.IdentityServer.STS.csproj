@@ -18,6 +18,11 @@
 
   <ItemGroup>
     <Folder Include="Resources\Pages\" />
+    <Folder Include="Resources\Pages\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.2.3" />
   </ItemGroup>
 
 </Project>

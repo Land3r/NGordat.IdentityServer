@@ -6,7 +6,7 @@
 @using NGordat.Identity.Domain.Entities;
 
 @inject IRootConfiguration RootConfiguration
-@inject IStringLocalizer Localizer
+@inject IStringLocalizer<NGordat.IdentityServer.STS.Pages.IndexModel> Localizer
 @{
     string? name = null;
     if (!true.Equals(ViewData["signed-out"]))

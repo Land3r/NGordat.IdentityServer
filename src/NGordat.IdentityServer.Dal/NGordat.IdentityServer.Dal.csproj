@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NGordat.Helpers.Hosting\NGordat.Helpers.Hosting.csproj" />
     <ProjectReference Include="..\NGordat.Identity.Domain\NGordat.Identity.Domain.csproj" />
   </ItemGroup>
 

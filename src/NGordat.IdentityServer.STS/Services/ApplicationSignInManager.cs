@@ -1,9 +1,13 @@
-﻿using System.Security.Claims;
+﻿using IdentityModel;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using System.Security.Claims;
 
-namespace NGordat.IdentityServer.Services
+namespace NGordat.IdentityServer.STS.Services
 {
     public class ApplicationSignInManager<TUser> : SignInManager<TUser>
-        where TUser : class
+            where TUser : class
     {
         private readonly IHttpContextAccessor _contextAccessor;
 
@@ -55,4 +59,3 @@ namespace NGordat.IdentityServer.Services
         }
     }
 }
-

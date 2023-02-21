@@ -15,17 +15,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NGordat.Identity.Domain", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Helpers", "Helpers", "{407A5248-8242-42C5-BE4F-B1D88B3619CC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NGordat.Helpers.Docker", "NGordat.Helpers.Docker\NGordat.Helpers.Docker.csproj", "{B4744A74-32C1-4BD0-B630-09AE5D376322}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NGordat.Helpers.Docker", "src\NGordat.Helpers.Docker\NGordat.Helpers.Docker.csproj", "{B4744A74-32C1-4BD0-B630-09AE5D376322}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dal", "Dal", "{7945ECE5-15DE-41C2-8B04-B0AED9FF9CBF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NGordat.IdentityServer.Dal", "src\NGordat.IdentityServer.Dal\NGordat.IdentityServer.Dal.csproj", "{72C7CE8E-C3B8-4018-B207-A9C077F7233E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NGordat.Helpers.Hosting", "src\NGordat.Helpers.Hosting\NGordat.Helpers.Hosting.csproj", "{8D8BFB14-61CA-4584-A9DC-A2973751052A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NGordat.Helpers.Hosting", "src\NGordat.Helpers.Hosting\NGordat.Helpers.Hosting.csproj", "{8D8BFB14-61CA-4584-A9DC-A2973751052A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{3D8391FE-4662-4288-A358-1F96C6043DAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NGordat.IdentityServer.Services", "src\NGordat.IdentityServer.Services\NGordat.IdentityServer.Services.csproj", "{C938E9F0-5281-499A-B087-7AC44E9129A4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{D6657F19-8F78-4C02-AA39-645C6A57518F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,21 +57,17 @@ Global
 		{8D8BFB14-61CA-4584-A9DC-A2973751052A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D8BFB14-61CA-4584-A9DC-A2973751052A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D8BFB14-61CA-4584-A9DC-A2973751052A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C938E9F0-5281-499A-B087-7AC44E9129A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C938E9F0-5281-499A-B087-7AC44E9129A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C938E9F0-5281-499A-B087-7AC44E9129A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C938E9F0-5281-499A-B087-7AC44E9129A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1BF94FC4-1471-4000-985A-AD344C08C661} = {1AFC96B3-48E7-4507-8479-56B21BD19FCE}
+		{3F654FFB-CD46-4C52-9DBB-7C191231AD76} = {1AFC96B3-48E7-4507-8479-56B21BD19FCE}
 		{77D26D2C-84F9-410B-9BF0-201721363907} = {B2266883-CB88-4DAB-B6C8-38CDDF886292}
 		{B4744A74-32C1-4BD0-B630-09AE5D376322} = {407A5248-8242-42C5-BE4F-B1D88B3619CC}
 		{72C7CE8E-C3B8-4018-B207-A9C077F7233E} = {7945ECE5-15DE-41C2-8B04-B0AED9FF9CBF}
 		{8D8BFB14-61CA-4584-A9DC-A2973751052A} = {407A5248-8242-42C5-BE4F-B1D88B3619CC}
-		{C938E9F0-5281-499A-B087-7AC44E9129A4} = {3D8391FE-4662-4288-A358-1F96C6043DAD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3122D9B7-0833-442B-B191-90A5ECA96A46}

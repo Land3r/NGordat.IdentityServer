@@ -1,11 +1,8 @@
 ﻿using Azure.Identity;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
-using Microsoft.Azure.KeyVault;
-using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Microsoft.Extensions.DependencyInjection;
 using NGordat.Helpers.Hosting.Configuration;
 using System;
@@ -18,6 +15,8 @@ namespace NGordat.Helpers.Hosting.Extensions
 {
     public static class ServiceCollectionExtensions
     {
+        #region DataProtection
+
         public static void AddDataProtection<TDbContext>(this IServiceCollection services, IConfiguration configuration)
                     where TDbContext : DbContext, IDataProtectionKeyContext
         {
@@ -58,22 +57,24 @@ namespace NGordat.Helpers.Hosting.Extensions
 
                 if (azureKeyVaultConfiguration.ReadConfigurationFromKeyVault)
                 {
-                    if (azureKeyVaultConfiguration.UseClientCredentials)
-                    {
-                        configurationBuilder.AddAzureKeyVault(azureKeyVaultConfiguration.AzureKeyVaultEndpoint,
-                            azureKeyVaultConfiguration.ClientId, azureKeyVaultConfiguration.ClientSecret);
-                    }
-                    else
-                    {
-                        var keyVaultClient = new KeyVaultClient(
-                            new KeyVaultClient.AuthenticationCallback(new AzureServiceTokenProvider()
-                                .KeyVaultTokenCallback));
+                    //if (azureKeyVaultConfiguration.UseClientCredentials)
+                    //{
+                    //    configurationBuilder.AddAzureKeyVault(azureKeyVaultConfiguration.AzureKeyVaultEndpoint,
+                    //        azureKeyVaultConfiguration.ClientId, azureKeyVaultConfiguration.ClientSecret);
+                    //}
+                    //else
+                    //{
+                    //    var keyVaultClient = new KeyVaultClient(
+                    //        new KeyVaultClient.AuthenticationCallback(new AzureServiceTokenProvider()
+                    //            .KeyVaultTokenCallback));
 
-                        configurationBuilder.AddAzureKeyVault(azureKeyVaultConfiguration.AzureKeyVaultEndpoint,
-                            keyVaultClient, new DefaultKeyVaultSecretManager());
-                    }
+                    //    configurationBuilder.AddAzureKeyVault(azureKeyVaultConfiguration.AzureKeyVaultEndpoint,
+                    //        keyVaultClient, new DefaultKeyVaultSecretManager());
+                    //}
                 }
             }
         }
+
+        #endregion DataProtection
     }
 }

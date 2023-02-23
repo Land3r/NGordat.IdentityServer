@@ -1,15 +1,20 @@
 ﻿using Duende.IdentityServer.Configuration;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Identity.Web;
 using NGordat.Helpers.Hosting.Authentication;
 using NGordat.Helpers.Hosting.Extensions;
 using NGordat.Identity.Domain.Entities;
 using NGordat.IdentityServer.Dal;
+using NGordat.IdentityServer.Dal.Helpers;
 using NGordat.IdentityServer.Dal.Interfaces;
 using NGordat.IdentityServer.STS.Configuration;
 using NGordat.IdentityServer.STS.Configuration.Interfaces;
@@ -17,6 +22,7 @@ using NGordat.IdentityServer.STS.Constants;
 using NGordat.IdentityServer.STS.Services;
 using NGordat.IdentityServer.STS.Services.Localization;
 using System.Globalization;
+using System.Security.Claims;
 
 namespace NGordat.IdentityServer.STS.Extensions
 {
@@ -77,85 +83,85 @@ namespace NGordat.IdentityServer.STS.Extensions
         private static void AddExternalProviders(AuthenticationBuilder authenticationBuilder,
             IConfiguration configuration)
         {
-            //var externalProviderConfiguration = configuration.GetSection(nameof(ExternalProvidersConfiguration)).Get<ExternalProvidersConfiguration>();
+            var externalProviderConfiguration = configuration.GetSection(nameof(ExternalProvidersConfiguration)).Get<ExternalProvidersConfiguration>();
 
-            //if (externalProviderConfiguration.UseGitHubProvider)
-            //{
-            //    authenticationBuilder.AddGitHub(options =>
-            //    {
-            //        options.ClientId = externalProviderConfiguration.GitHubClientId;
-            //        options.ClientSecret = externalProviderConfiguration.GitHubClientSecret;
-            //        options.CallbackPath = externalProviderConfiguration.GitHubCallbackPath;
-            //        options.Scope.Add("user:email");
-            //    });
-            //}
+            if (externalProviderConfiguration.UseGitHubProvider)
+            {
+                authenticationBuilder.AddGitHub(options =>
+                {
+                    options.ClientId = externalProviderConfiguration.GitHubClientId;
+                    options.ClientSecret = externalProviderConfiguration.GitHubClientSecret;
+                    options.CallbackPath = externalProviderConfiguration.GitHubCallbackPath;
+                    options.Scope.Add("user:email");
+                });
+            }
 
-            //if (externalProviderConfiguration.UseAzureAdProvider)
-            //{
-            //    authenticationBuilder.AddMicrosoftIdentityWebApp(options =>
-            //    {
-            //        options.ClientSecret = externalProviderConfiguration.AzureAdSecret;
-            //        options.ClientId = externalProviderConfiguration.AzureAdClientId;
-            //        options.TenantId = externalProviderConfiguration.AzureAdTenantId;
-            //        options.Instance = externalProviderConfiguration.AzureInstance;
-            //        options.Domain = externalProviderConfiguration.AzureDomain;
-            //        options.CallbackPath = externalProviderConfiguration.AzureAdCallbackPath;
-            //    }, cookieScheme: null);
-            //}
+            if (externalProviderConfiguration.UseAzureAdProvider)
+            {
+                authenticationBuilder.AddMicrosoftIdentityWebApp(options =>
+                {
+                    options.ClientSecret = externalProviderConfiguration.AzureAdSecret;
+                    options.ClientId = externalProviderConfiguration.AzureAdClientId;
+                    options.TenantId = externalProviderConfiguration.AzureAdTenantId;
+                    options.Instance = externalProviderConfiguration.AzureInstance;
+                    options.Domain = externalProviderConfiguration.AzureDomain;
+                    options.CallbackPath = externalProviderConfiguration.AzureAdCallbackPath;
+                }, cookieScheme: null);
+            }
 
-            //if (externalProviderConfiguration.UseGoogleProvider)
-            //{
-            //    authenticationBuilder.AddGoogle(options =>
-            //    {
-            //        //options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+            if (externalProviderConfiguration.UseGoogleProvider)
+            {
+                authenticationBuilder.AddGoogle(options =>
+                {
+                    //options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
 
-            //        // register your IdentityServer with Google at https://console.developers.google.com
-            //        // enable the Google+ API
-            //        // set the redirect URI to https://localhost:5001/signin-google
-            //        options.ClientId = externalProviderConfiguration.GoogleClientId;
-            //        options.ClientSecret = externalProviderConfiguration.GoogleClientSecret;
-            //    });
-            //}
-            //if (externalProviderConfiguration.UseSteamProvider)
-            //{
-            //    authenticationBuilder.AddSteam("Steam", options =>
-            //    {
-            //        //options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                    // register your IdentityServer with Google at https://console.developers.google.com
+                    // enable the Google+ API
+                    // set the redirect URI to https://localhost:5001/signin-google
+                    options.ClientId = externalProviderConfiguration.GoogleClientId;
+                    options.ClientSecret = externalProviderConfiguration.GoogleClientSecret;
+                });
+            }
+            if (externalProviderConfiguration.UseSteamProvider)
+            {
+                authenticationBuilder.AddSteam("Steam", options =>
+                {
+                    //options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
 
-            //        options.ApplicationKey = externalProviderConfiguration.SteamClientId;
-            //        // Note that Steam OpenId implementation doesn't support requesting additionnal claims.
-            //        // In order to add several claims from the Steam OpenId response, we need to add manually the requested claims
-            //        options.Events.OnAuthenticated = context =>
-            //        {
-            //            // Get user informations
-            //            var steamOpenIdResponse = context.UserPayload.Deserialize<SteamOpenIdResponse>();
+                    options.ApplicationKey = externalProviderConfiguration.SteamClientId;
+                    // Note that Steam OpenId implementation doesn't support requesting additionnal claims.
+                    // In order to add several claims from the Steam OpenId response, we need to add manually the requested claims
+                    options.Events.OnAuthenticated = context =>
+                    {
+                        // Get user informations
+                        //var steamOpenIdResponse = context.UserPayload.Deserialize<SteamOpenIdResponse>();
 
 
-            //            string picture = steamOpenIdResponse?.Response?.Players?.FirstOrDefault()?.AvatarFull;
-            //            string profile = steamOpenIdResponse?.Response?.Players?.FirstOrDefault()?.ProfileUrl;
-            //            if (!string.IsNullOrEmpty(picture))
-            //            {
-            //                context.Identity.AddClaim(new Claim(MidoneUserClaimConstants.Picture, picture));
-            //            }
-            //            if (!string.IsNullOrEmpty(profile))
-            //            {
-            //                context.Identity.AddClaim(new Claim(MidoneUserClaimConstants.SteamProfile, profile));
-            //            }
+                        //string picture = steamOpenIdResponse?.Response?.Players?.FirstOrDefault()?.AvatarFull;
+                        //string profile = steamOpenIdResponse?.Response?.Players?.FirstOrDefault()?.ProfileUrl;
+                        //if (!string.IsNullOrEmpty(picture))
+                        //{
+                        //    context.Identity.AddClaim(new Claim(MidoneUserClaimConstants.Picture, picture));
+                        //}
+                        //if (!string.IsNullOrEmpty(profile))
+                        //{
+                        //    context.Identity.AddClaim(new Claim(MidoneUserClaimConstants.SteamProfile, profile));
+                        //}
 
-            //            return Task.FromResult(0);
-            //        };
-            //    });
-            //}
-            //if (externalProviderConfiguration.UseFacebookProvider)
-            //{
-            //    authenticationBuilder.AddFacebook(options =>
-            //    {
-            //        //options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-            //        options.AppId = externalProviderConfiguration.FacebookClientId;
-            //        options.AppSecret = externalProviderConfiguration.FacebookClientSecret;
-            //        options.Scope.Add("public_profile");
-            //    });
-            //}
+                        return Task.FromResult(0);
+                    };
+                });
+            }
+            if (externalProviderConfiguration.UseFacebookProvider)
+            {
+                authenticationBuilder.AddFacebook(options =>
+                {
+                    //options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                    options.AppId = externalProviderConfiguration.FacebookClientId;
+                    options.AppSecret = externalProviderConfiguration.FacebookClientSecret;
+                    options.Scope.Add("public_profile");
+                });
+            }
         }
 
         /// <summary>
@@ -286,6 +292,44 @@ namespace NGordat.IdentityServer.STS.Extensions
                 options.IncludeSubDomains = true;
                 options.MaxAge = TimeSpan.FromDays(365);
             });
+        }
+
+        public static void AddIdentityHealthChecks<TConfigurationDbContext, TPersistedGrantDbContext, TIdentityDbContext, TDataProtectionDbContext>(this IServiceCollection services, IConfiguration configuration)
+            where TConfigurationDbContext : DbContext, IAdminConfigurationDbContext
+            where TPersistedGrantDbContext : DbContext, IAdminPersistedGrantDbContext
+            where TIdentityDbContext : DbContext
+            where TDataProtectionDbContext : DbContext, IDataProtectionKeyContext
+        {
+            var serviceProvider = services.BuildServiceProvider();
+            var scopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var configurationDbConnectionString = configuration.GetConnectionString(typeof(TConfigurationDbContext).GetFriendlyName());
+                var persistedGrantsDbConnectionString = configuration.GetConnectionString(typeof(TPersistedGrantDbContext).GetFriendlyName());
+                var identityDbConnectionString = configuration.GetConnectionString(typeof(TIdentityDbContext).GetFriendlyName());
+                var dataProtectionDbConnectionString = configuration.GetConnectionString(typeof(TDataProtectionDbContext).GetFriendlyName());
+
+                var healthChecksBuilder = services.AddHealthChecks()
+                    .AddDbContextCheck<TConfigurationDbContext>("ConfigurationDbContext")
+                    .AddDbContextCheck<TPersistedGrantDbContext>("PersistedGrantsDbContext")
+                    .AddDbContextCheck<TIdentityDbContext>("IdentityDbContext")
+                    .AddDbContextCheck<TDataProtectionDbContext>("DataProtectionDbContext");
+
+                var configurationTableName = DbContextHelpers.GetEntityTable<TConfigurationDbContext>(scope.ServiceProvider);
+                var persistedGrantTableName = DbContextHelpers.GetEntityTable<TPersistedGrantDbContext>(scope.ServiceProvider);
+                var identityTableName = DbContextHelpers.GetEntityTable<TIdentityDbContext>(scope.ServiceProvider);
+                var dataProtectionTableName = DbContextHelpers.GetEntityTable<TDataProtectionDbContext>(scope.ServiceProvider);
+
+                healthChecksBuilder
+                    .AddNpgSql(configurationDbConnectionString, name: "ConfigurationDb",
+                        healthQuery: $"SELECT * FROM \"{configurationTableName}\" LIMIT 1")
+                    .AddNpgSql(persistedGrantsDbConnectionString, name: "PersistentGrantsDb",
+                        healthQuery: $"SELECT * FROM \"{persistedGrantTableName}\" LIMIT 1")
+                    .AddNpgSql(identityDbConnectionString, name: "IdentityDb",
+                        healthQuery: $"SELECT * FROM \"{identityTableName}\" LIMIT 1")
+                    .AddNpgSql(dataProtectionDbConnectionString, name: "DataProtectionDb",
+                        healthQuery: $"SELECT * FROM \"{dataProtectionTableName}\"  LIMIT 1");
+            }
         }
     }
 }

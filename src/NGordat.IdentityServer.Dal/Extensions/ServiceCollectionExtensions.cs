@@ -25,10 +25,10 @@ namespace NGordat.IdentityServer.Dal.Extensions
             // Following line is specific to postgres ef provider.
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-            services.AddDbContext<IdentityServerConfigurationDbContext>(options => options.UseNpgsql(configuration.GetConnectionString(nameof(IdentityServerConfigurationDbContext))));
-            services.AddDbContext<IdentityServerDataProtectionDbContext>(options => options.UseNpgsql(configuration.GetConnectionString(nameof(IdentityServerDataProtectionDbContext))));
-            services.AddDbContext<IdentityServerPersistedGrantDbContext>(options => options.UseNpgsql(configuration.GetConnectionString(nameof(IdentityServerPersistedGrantDbContext))));
-            services.AddDbContext<IdentityServerIdentityDbContext<TKey>>(options => options.UseNpgsql(configuration.GetConnectionString(nameof(IdentityServerPersistedGrantDbContext))));
+            services.AddDbContext<IdentityServerConfigurationDbContext>(options => options.UseNpgsql(configuration.GetConnectionString(typeof(IdentityServerConfigurationDbContext).GetFriendlyName())));
+            services.AddDbContext<IdentityServerDataProtectionDbContext>(options => options.UseNpgsql(configuration.GetConnectionString(typeof(IdentityServerDataProtectionDbContext).GetFriendlyName())));
+            services.AddDbContext<IdentityServerPersistedGrantDbContext>(options => options.UseNpgsql(configuration.GetConnectionString(typeof(IdentityServerPersistedGrantDbContext).GetFriendlyName())));
+            services.AddDbContext<IdentityServerIdentityDbContext<TKey>>(options => options.UseNpgsql(configuration.GetConnectionString(typeof(IdentityServerIdentityDbContext<TKey>).GetFriendlyName())));
         }
     }
 }

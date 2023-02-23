@@ -1,4 +1,6 @@
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,6 +34,9 @@ builder.Services.AddRazorWithLocalization<UserIdentity<Guid>, Guid>(builder.Conf
 // Register authorization
 builder.Services.RegisterAuthorization(builder.Configuration);
 
+// Register Health Checks
+builder.Services.AddIdentityHealthChecks<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, IdentityServerIdentityDbContext<Guid>, IdentityServerDataProtectionDbContext>(builder.Configuration);
+
 var app = builder.Build();
 
 app.UseCookiePolicy();
@@ -62,4 +67,8 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 app.Run();

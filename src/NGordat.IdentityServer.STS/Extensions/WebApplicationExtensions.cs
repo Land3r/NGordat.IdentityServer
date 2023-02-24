@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.HttpOverrides;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NGordat.IdentityServer.STS.Constants;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NGordat.IdentityServer.STS.Extensions
 {

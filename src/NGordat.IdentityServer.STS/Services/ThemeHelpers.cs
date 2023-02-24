@@ -1,4 +1,6 @@
-﻿namespace NGordat.IdentityServer.STS.Services
+﻿using System.Collections.Generic;
+
+namespace NGordat.IdentityServer.STS.Services
 {
     public static class ThemeHelpers
     {

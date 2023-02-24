@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Localization;
+using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace NGordat.IdentityServer.STS.Services.Localization

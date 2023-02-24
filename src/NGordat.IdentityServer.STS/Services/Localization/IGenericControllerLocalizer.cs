@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Localization;
+using System.Collections.Generic;
 
 namespace NGordat.IdentityServer.STS.Services.Localization
 {

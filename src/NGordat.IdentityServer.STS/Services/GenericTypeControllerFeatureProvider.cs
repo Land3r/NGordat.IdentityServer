@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
+using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace NGordat.IdentityServer.STS.Services
 {

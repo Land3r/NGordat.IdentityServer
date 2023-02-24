@@ -1,5 +1,7 @@
 ﻿using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Validation;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NGordat.IdentityServer.STS.Services
 {

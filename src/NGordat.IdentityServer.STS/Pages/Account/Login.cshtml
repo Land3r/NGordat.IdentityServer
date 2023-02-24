@@ -16,7 +16,7 @@
 
     <div class="row">
 
-        @if (Model.EnableLocalLogin)
+        @if (Model.LoginViewModel.EnableLocalLogin)
         {
             <div class="col-sm-6">
                 <div class="card mt-3">
@@ -68,7 +68,7 @@
                                     </div>
                                 </div>
 
-                                @if (Model.AllowRememberLogin)
+                                @if (Model.LoginViewModel.AllowRememberLogin)
                                 {
                                     <div class="form-group login-remember row">
                                         <div class="col-sm-9">
@@ -104,14 +104,14 @@
             </div>
         }
 
-        @if (Model.VisibleExternalProviders.Any())
+        @if (Model.LoginViewModel.VisibleExternalProviders.Any())
         {
             <div class="col-sm-6 external-providers">
                 <div class="card mt-3">
                     <h5 class="card-header">@Localizer["ExternalLogin"]</h5>
                     <div class="card-body">
                         <ul class="list-inline">
-                            @foreach (var provider in Model.VisibleExternalProviders)
+                            @foreach (var provider in Model.LoginViewModel.VisibleExternalProviders)
                             {
                                 <li class="list-inline-item">
                                     <a class="btn btn-primary"
@@ -128,7 +128,7 @@
             </div>
         }
 
-        @if (!Model.EnableLocalLogin && !Model.VisibleExternalProviders.Any())
+        @if (!Model.LoginViewModel.EnableLocalLogin && !Model.LoginViewModel.VisibleExternalProviders.Any())
         {
             <div class="alert alert-warning">
                 <strong>@Localizer["InvalidRequest"]</strong>

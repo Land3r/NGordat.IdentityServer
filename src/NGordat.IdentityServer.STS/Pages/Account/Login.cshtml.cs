@@ -1,5 +1,11 @@
+using Duende.IdentityServer;
+using Duende.IdentityServer.Services;
+using Duende.IdentityServer.Stores;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
 using NGordat.Helpers.Hosting.Configuration;
 using NGordat.IdentityServer.STS.Pages.Shared;
 using NGordat.IdentityServer.STS.ViewModels.Account;
@@ -13,15 +19,7 @@ namespace NGordat.IdentityServer.STS.Pages.Account
     {
         #region LoginInputModel
 
-        public bool AllowRememberLogin { get; set; } = true;
-        public bool EnableLocalLogin { get; set; } = true;
-        public LoginResolutionPolicy LoginResolutionPolicy { get; set; } = LoginResolutionPolicy.Username;
-
-        public IEnumerable<ExternalProvider> ExternalProviders { get; set; } = Enumerable.Empty<ExternalProvider>();
-        public IEnumerable<ExternalProvider> VisibleExternalProviders => ExternalProviders.Where(x => !string.IsNullOrWhiteSpace(x.DisplayName));
-
-        public bool IsExternalLoginOnly => EnableLocalLogin == false && ExternalProviders?.Count() == 1;
-        public string ExternalLoginScheme => IsExternalLoginOnly ? ExternalProviders?.SingleOrDefault()?.AuthenticationScheme : null;
+        public LoginViewModel LoginViewModel { get; set; }
 
         #endregion LoginInputModel
 
@@ -37,8 +35,19 @@ namespace NGordat.IdentityServer.STS.Pages.Account
 
         public string ReturnUrl { get; set; }
 
-        public LoginModel(ILogger<LoginModel> logger) : base(logger)
+
+        private readonly IIdentityServerInteractionService _interaction;
+        private readonly IAuthenticationSchemeProvider _schemeProvider;
+        private readonly IClientStore _clientStore;
+
+        public LoginModel(ILogger<LoginModel> logger,
+            IIdentityServerInteractionService interaction,
+            IAuthenticationSchemeProvider schemeProvider,
+            IClientStore clientStore) : base(logger)
         {
+            _interaction = interaction;
+            _schemeProvider = schemeProvider;
+            _clientStore = clientStore;
         }
 
         public void OnGet()

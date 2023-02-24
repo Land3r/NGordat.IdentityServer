@@ -1,6 +1,7 @@
 ﻿using NGordat.IdentityServer.STS.Configuration.Interfaces;
 using NGordat.IdentityServer.STS.Configuration;
 using NGordat.IdentityServer.STS.Constants;
+using Microsoft.Extensions.Configuration;
 
 namespace NGordat.IdentityServer.STS.Extensions
 {

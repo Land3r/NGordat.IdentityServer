@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using NGordat.Helpers.Hosting.Configuration;
+using System.Threading.Tasks;
 
 namespace NGordat.IdentityServer.STS.Services
 {

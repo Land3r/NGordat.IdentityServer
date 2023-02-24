@@ -1,4 +1,8 @@
-﻿using NGordat.Helpers.Hosting.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using NGordat.Helpers.Hosting.Configuration;
+using System;
+using System.IO;
 using System.Security.Cryptography.X509Certificates;
 
 namespace NGordat.IdentityServer.STS.Extensions

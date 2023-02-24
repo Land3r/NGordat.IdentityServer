@@ -1,6 +1,8 @@
 ﻿using Duende.IdentityServer.Configuration;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Localization;
@@ -21,8 +23,11 @@ using NGordat.IdentityServer.STS.Configuration.Interfaces;
 using NGordat.IdentityServer.STS.Constants;
 using NGordat.IdentityServer.STS.Services;
 using NGordat.IdentityServer.STS.Services.Localization;
+using System;
 using System.Globalization;
+using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace NGordat.IdentityServer.STS.Extensions
 {

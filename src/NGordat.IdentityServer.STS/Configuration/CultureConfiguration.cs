@@ -1,4 +1,6 @@
-﻿namespace NGordat.IdentityServer.STS.Configuration
+﻿using System.Collections.Generic;
+
+namespace NGordat.IdentityServer.STS.Configuration
 {
     public class CultureConfiguration
     {

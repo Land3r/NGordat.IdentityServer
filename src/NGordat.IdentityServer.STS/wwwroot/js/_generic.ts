@@ -1,8 +1,11 @@
-var ICON_REVEAL_PASSWORD_ON = 'fa-eye';
-var ICON_REVEAL_PASSWORD_OFF = 'fa-eye-slash';
-function toggleReveal(elementId, revealBtnId) {
-    var inputElm = document.getElementById(elementId);
-    var iconElm = document.getElementById(revealBtnId);
+﻿const ICON_REVEAL_PASSWORD_ON: string = 'fa-eye';
+const ICON_REVEAL_PASSWORD_OFF: string = 'fa-eye-slash';
+
+
+function toggleReveal(elementId: string, revealBtnId: string) {
+    let inputElm = <HTMLInputElement>document.getElementById(elementId);
+    let iconElm = document.getElementById(revealBtnId);
+
     if (inputElm.type == 'password') {
         inputElm.type = 'text';
         iconElm.classList.toggle(ICON_REVEAL_PASSWORD_ON);
@@ -14,4 +17,3 @@ function toggleReveal(elementId, revealBtnId) {
         iconElm.classList.toggle(ICON_REVEAL_PASSWORD_OFF);
     }
 }
-//# sourceMappingURL=site.js.map

@@ -1,9 +1,12 @@
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using NGordat.Helpers.Hosting.Authentication;
 using NGordat.Helpers.Hosting.Extensions;
 using NGordat.Identity.Domain.Entities;
@@ -11,6 +14,7 @@ using NGordat.IdentityServer.Dal;
 using NGordat.IdentityServer.Dal.Extensions;
 using NGordat.IdentityServer.STS.Extensions;
 using NGordat.IdentityServer.STS.Services;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 

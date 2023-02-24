@@ -1,6 +1,7 @@
 ﻿using Duende.IdentityServer.Hosting.DynamicProviders;
 using Duende.IdentityServer.Models;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Http;
 
 namespace NGordat.IdentityServer.STS.Services
 {

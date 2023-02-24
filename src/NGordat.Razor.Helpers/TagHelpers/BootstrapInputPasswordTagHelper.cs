@@ -69,12 +69,12 @@ namespace NGordat.Razor.Helpers.TagHelpers
             // End icon, if any.
             if (!string.IsNullOrEmpty(presentationAttr.Icon) && presentationAttr?.IconPosition == IconPosition.End)
             {
-                string icon = $"<i class=\"input-group-text {presentationAttr.Icon}\" id=\"reveal{id}Btn\"></i>";
+                string icon = $"<i class=\"input-group-text {presentationAttr.Icon}\"></i>";
                 output.Content.AppendHtml(icon);
             }
 
             // Reveal password
-            string reveal = $"<i class=\"input-group-text fa fa-eye\" onclick=\"toggleReveal(\"{id}\", \"reveal{id}Btn\")\"></i>";
+            string reveal = $"<i class=\"input-group-text fa fa-eye reveal-btn\" id=\"reveal{id}Btn\" onclick=\"toggleReveal('{id}', 'reveal{id}Btn')\"></i>";
             output.Content.AppendHtml(reveal);
         }
     }

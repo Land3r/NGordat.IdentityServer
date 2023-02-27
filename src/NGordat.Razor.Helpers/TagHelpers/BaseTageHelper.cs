@@ -21,7 +21,9 @@ namespace NGordat.Razor.Helpers.TagHelpers
         public TAttribute GetPropertyAttribute<TAttribute>(Type type, string propertyName)
             where TAttribute : Attribute
         {
-            var prop = type.GetProperty(propertyName);
+            string actualPropertyName = propertyName.Split('.').Last();
+
+            var prop = type.GetProperty(actualPropertyName);
             if (Attribute.IsDefined(prop, typeof(TAttribute)))
             {
                 return prop.GetCustomAttribute<TAttribute>();

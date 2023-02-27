@@ -5,7 +5,10 @@
 // Modified by Jan Škoruba
 
 using NGordat.Helpers.Hosting.Configuration;
+using NGordat.Razor.Helpers.Attributes;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using System.Linq;
 
 namespace NGordat.IdentityServer.STS.ViewModels.Account
@@ -21,9 +24,18 @@ namespace NGordat.IdentityServer.STS.ViewModels.Account
         public bool IsExternalLoginOnly => EnableLocalLogin == false && ExternalProviders?.Count() == 1;
         public string ExternalLoginScheme => IsExternalLoginOnly ? ExternalProviders?.SingleOrDefault()?.AuthenticationScheme : null;
 
-        public string? ReturnUrl { get; set; }
+        public string ReturnUrl { get; set; }
 
-        public string? Username { get; set; }
+        [Required]
+        [Presentation(DataType = "string", Icon = "fa fa-user", IconPosition = IconPosition.Start, Autofocus = true)]
+        public string Username { get; set; } = string.Empty;
+
+        [Required]
+        [Presentation(DataType = "password", Icon = "fa fa-key", IconPosition = IconPosition.Start)]
+        public string Password { get; set; }
+
+        [Presentation(DataType = "checkbox")]
+        public bool RememberLogin { get; set; }
     }
 }
 

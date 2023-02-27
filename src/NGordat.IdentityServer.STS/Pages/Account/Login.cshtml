@@ -23,13 +23,13 @@
                     <h5 class="card-header">@Localizer["LocalLogin"]</h5>
                     <div class="card-body">
                         <form asp-route="Login">
-                            <input type="hidden" asp-for="ReturnUrl" />
+                            <input type="hidden" asp-for="LoginViewModel.ReturnUrl" />
 
                             <fieldset>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <bootstrap-input asp-for="Username" asp-type="Model.GetType()"></bootstrap-input>
-                                        <span asp-validation-for="Username" class="text-danger"></span>
+                                        <bootstrap-input asp-for="LoginViewModel.Username" asp-type="Model.LoginViewModel.GetType()"></bootstrap-input>
+                                        <span asp-validation-for="LoginViewModel.Username" class="text-danger"></span>
                                     </div>
                                 </div>
                                 @*<div class="form-group row">
@@ -47,8 +47,8 @@
                             </div>*@
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <bootstrap-input-password asp-for="Password" asp-type="Model.GetType()"></bootstrap-input-password>
-                                        <span asp-validation-for="Password" class="text-danger"></span>
+                                        <bootstrap-input-password asp-for="LoginViewModel.Password" asp-type="Model.LoginViewModel.GetType()"></bootstrap-input-password>
+                                        <span asp-validation-for="LoginViewModel.Password" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -72,12 +72,7 @@
                                 {
                                     <div class="form-group login-remember row">
                                         <div class="col-sm-9">
-                                            <div>
-                                                @Localizer["Remember"]
-                                            </div>
-                                            <toggle-button>
-                                                <input asp-for="RememberLogin" type="checkbox">
-                                            </toggle-button>
+                                            <bootstrap-switch asp-for="LoginViewModel.AllowRememberLogin" asp-type="Model.LoginViewModel.GetType()"></bootstrap-switch>
                                         </div>
                                     </div>
                                 }
@@ -117,7 +112,7 @@
                                     <a class="btn btn-primary"
                                asp-action="ExternalLogin"
                                asp-route-provider="@provider.AuthenticationScheme"
-                               asp-route-returnUrl="@Model.ReturnUrl">
+                               asp-route-returnUrl="@Model.LoginViewModel.ReturnUrl">
                                         @provider.DisplayName
                                     </a>
                                 </li>

@@ -26,6 +26,9 @@ builder.Services.AddSingleton(rootConfiguration);
 // Register the Db context used by STS and specifies the primary key type for our user system.
 builder.Services.RegisterDbContexts<Guid>(builder.Configuration);
 
+// Register local services
+builder.Services.AddScoped<AccountService>();
+
 // Register authentication and Identity Server
 builder.Services.RegisterAuthentication<Guid>(builder.Configuration);
 

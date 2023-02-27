@@ -13,10 +13,3 @@ namespace NGordat.Identity.Domain.Entities
 
     }
 }
-
-
-
-
-
-
-

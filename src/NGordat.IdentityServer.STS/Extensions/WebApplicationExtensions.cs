@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using NGordat.Helpers.Hosting.Configuration;
 using NGordat.IdentityServer.STS.Constants;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,14 +37,14 @@ namespace NGordat.IdentityServer.STS.Extensions
             app.UseReferrerPolicy(options => options.NoReferrer());
 
             // CSP Configuration to be able to use external resources
-            var cspTrustedDomains = new List<string>();
-            configuration.GetSection(ConfigurationConsts.CspTrustedDomainsKey).Bind(cspTrustedDomains);
-            if (cspTrustedDomains.Any())
+            SecurityConfiguration? securityConfiguration = null;
+            configuration.GetSection(nameof(SecurityConfiguration)).Bind(securityConfiguration);
+            if (securityConfiguration?.CspTrustedDomains.Any() == true)
             {
                 app.UseCsp(csp =>
                 {
                     var imagesSources = new List<string> { "data:" };
-                    imagesSources.AddRange(cspTrustedDomains);
+                    imagesSources.AddRange(securityConfiguration.CspTrustedDomains);
 
                     csp.ImageSources(options =>
                     {
@@ -54,20 +55,20 @@ namespace NGordat.IdentityServer.STS.Extensions
                     csp.FontSources(options =>
                     {
                         options.SelfSrc = true;
-                        options.CustomSources = cspTrustedDomains;
+                        options.CustomSources = securityConfiguration.CspTrustedDomains;
                         options.Enabled = true;
                     });
                     csp.ScriptSources(options =>
                     {
                         options.SelfSrc = true;
-                        options.CustomSources = cspTrustedDomains;
+                        options.CustomSources = securityConfiguration.CspTrustedDomains;
                         options.Enabled = true;
                         options.UnsafeInlineSrc = true;
                     });
                     csp.StyleSources(options =>
                     {
                         options.SelfSrc = true;
-                        options.CustomSources = cspTrustedDomains;
+                        options.CustomSources = securityConfiguration.CspTrustedDomains;
                         options.Enabled = true;
                         options.UnsafeInlineSrc = true;
                     });
@@ -99,7 +100,7 @@ namespace NGordat.IdentityServer.STS.Extensions
                     {
                         options.Enabled = true;
                         options.SelfSrc = true;
-                        options.CustomSources = cspTrustedDomains;
+                        options.CustomSources = securityConfiguration.CspTrustedDomains;
                     });
                 });
             }

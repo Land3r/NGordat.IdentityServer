@@ -9,7 +9,9 @@ namespace NGordat.Identity.Domain.Entities
     public class UserIdentityRoleClaim<TKey> : IdentityRoleClaim<TKey>
         where TKey : IEquatable<TKey>
     {
-
+    }
+    public class UserIdentityRoleClaim : UserIdentityRoleClaim<Guid>
+    {
     }
 }
 

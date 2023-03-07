@@ -22,7 +22,7 @@
                 <div class="card mt-3">
                     <h5 class="card-header">@Localizer["LocalLogin"]</h5>
                     <div class="card-body">
-                        <form asp-route="Login">
+                        <form asp-page="Login">
                             <input type="hidden" asp-for="LoginViewModel.ReturnUrl" />
 
                             <fieldset>
@@ -32,19 +32,6 @@
                                         <span asp-validation-for="LoginViewModel.Username" class="text-danger"></span>
                                     </div>
                                 </div>
-                                @*<div class="form-group row">
-                            <div class="col-sm-12">
-                            <div class="input-group">
-                            <div class="input-group-prepend">
-                            <span class="input-group-text" id="input-username">
-                            <i class="fa fa-user"></i>
-                            </span>
-                            </div>
-                            <input class="form-control" placeholder="@Localizer[LoginPolicyResolutionLocalizer.GetUserNameLocalizationKey(Model.LoginResolutionPolicy)]" asp-for="Username" aria-label="Username" aria-describedby="input-username" autofocus />
-                            <span asp-validation-for="Username"></span>
-                            </div>
-                            </div>
-                            </div>*@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <bootstrap-input-password asp-for="LoginViewModel.Password" asp-type="Model.LoginViewModel.GetType()"></bootstrap-input-password>
@@ -53,7 +40,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <a asp-action="Register" asp-controller="Account" class="btn btn-primary btn-block" value="forgot">@Localizer["Continue"]</a>
+                                        <button type="submit" class="btn btn-primary" asp-page-handler="Login">@Localizer["Continue"]</button>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -86,8 +73,8 @@
                                 <!--Button-->
                                 <div class="form-group row">
                                     <div class="col-sm-12">
-                                        <button class="btn btn-primary" name="button" value="login">@Localizer["Login"]</button>
-                                        <button class="btn btn-secondary" name="button" value="cancel">@Localizer["Cancel"]</button>
+                                        <button class="btn btn-primary" type="button" asp-page="Register">@Localizer["Register"]</button>
+                                        <button class="btn btn-secondary" type="button" value="cancel">@Localizer["Cancel"]</button>
                                         <a asp-action="ForgotPassword" asp-controller="Account" class="btn btn-info" value="forgot">@Localizer["Forgot"]</a>
 
                                     </div>

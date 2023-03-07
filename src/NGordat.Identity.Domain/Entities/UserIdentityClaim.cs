@@ -11,6 +11,10 @@ namespace NGordat.Identity.Domain.Entities
         where TKey : IEquatable<TKey>
     {
     }
+
+    public class UserIdentityUserClaim : UserIdentityUserClaim<Guid>
+    {
+    }
 }
 
 

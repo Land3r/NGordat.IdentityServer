@@ -6,7 +6,6 @@ using NGordat.Helpers.Hosting.Filters;
 
 namespace NGordat.IdentityServer.STS.Pages
 {
-    [SecurityHeaders]
     [AllowAnonymous]
     public class IndexModel : PageModel
     {

@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 namespace NGordat.IdentityServer.STS.Pages.Account
 {
 
-    [SecurityHeaders]
     public class ExternalLoginModel : ALoggedPageModel<ExternalLoginModel>
     {
         private readonly ApplicationSignInManager<UserIdentity<Guid>> _signInManager;

@@ -4,6 +4,7 @@
 // Original file: https://github.com/DuendeSoftware/IdentityServer.Quickstart.UI
 // Modified by Jan Škoruba
 
+using Microsoft.AspNetCore.Mvc;
 using NGordat.Helpers.Hosting.Configuration;
 using NGordat.Razor.Helpers.Attributes;
 using System.Collections.Generic;

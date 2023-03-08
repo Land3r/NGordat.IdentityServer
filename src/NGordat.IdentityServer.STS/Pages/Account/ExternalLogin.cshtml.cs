@@ -15,9 +15,9 @@ namespace NGordat.IdentityServer.STS.Pages.Account
 
     public class ExternalLoginModel : ALoggedPageModel<ExternalLoginModel>
     {
-        private readonly ApplicationSignInManager<UserIdentity<Guid>> _signInManager;
+        private readonly ApplicationSignInManager<UserIdentity> _signInManager;
 
-        public ExternalLoginModel(ILogger<ExternalLoginModel> logger, ApplicationSignInManager<UserIdentity<Guid>> signInManager)
+        public ExternalLoginModel(ILogger<ExternalLoginModel> logger, ApplicationSignInManager<UserIdentity> signInManager)
             : base(logger)
         {
             _signInManager = signInManager;
@@ -26,7 +26,7 @@ namespace NGordat.IdentityServer.STS.Pages.Account
         public IActionResult OnGet(string provider, string? returnUrl)
         {
             // Request a redirect to the external login provider.
-            var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
+            var redirectUrl = Url.Page("ExternalLogin", "Callback", new { ReturnUrl = returnUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
 
             return Challenge(properties, provider);
@@ -39,6 +39,11 @@ namespace NGordat.IdentityServer.STS.Pages.Account
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
 
             return Challenge(properties, provider);
+        }
+
+        public async Task<IActionResult> OnPostCallbackAsync()
+        {
+
         }
     }
 }

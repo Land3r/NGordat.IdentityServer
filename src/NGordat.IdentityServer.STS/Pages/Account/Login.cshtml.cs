@@ -22,6 +22,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using NGordat.Helpers.Hosting.Extensions;
 using NGordat.Identity.Domain.Entities;
+using Duende.IdentityServer.Events;
+using NGordat.IdentityServer.STS.Configuration;
+using NGordat.IdentityServer.STS.Extensions;
 
 namespace NGordat.IdentityServer.STS.Pages.Account
 {
@@ -37,16 +40,22 @@ namespace NGordat.IdentityServer.STS.Pages.Account
         private readonly AccountService _accountService;
         private readonly IIdentityServerInteractionService _interactionService;
         private readonly UserResolver<UserIdentity> _userResolver;
+        private readonly ApplicationSignInManager<UserIdentity> _signInManager;
+        private readonly IEventService _eventService;
 
         public LoginModel(ILogger<LoginModel> logger,
             AccountService accountService,
             IIdentityServerInteractionService interactionService,
-            UserResolver<UserIdentity> userResolver
+            UserResolver<UserIdentity> userResolver,
+            ApplicationSignInManager<UserIdentity> signInManager,
+            IEventService eventService
             ) : base(logger)
         {
             _accountService = accountService;
             _interactionService = interactionService;
             _userResolver = userResolver;
+            _signInManager = signInManager;
+            _eventService = eventService;
         }
 
         public async Task<IActionResult> OnGetAsync(string? returnUrl)
@@ -70,13 +79,13 @@ namespace NGordat.IdentityServer.STS.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = await _userResolver.GetUserAsync(model.Username);
-                if (user != default(TUser))
+                var user = await _userResolver.GetUserAsync(LoginViewModel.Username);
+                if (user != default(UserIdentity))
                 {
-                    var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberLogin, lockoutOnFailure: true);
+                    var result = await _signInManager.PasswordSignInAsync(user.UserName, LoginViewModel.Password, LoginViewModel.RememberLogin, lockoutOnFailure: true);
                     if (result.Succeeded)
                     {
-                        await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id.ToString(), user.UserName));
+                        await _eventService.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id.ToString(), user.UserName));
 
                         if (context != null)
                         {
@@ -84,20 +93,20 @@ namespace NGordat.IdentityServer.STS.Pages.Account
                             {
                                 // The client is native, so this change in how to
                                 // return the response is for better UX for the end user.
-                                return this.LoadingPage("Redirect", model.ReturnUrl);
+                                return this.LoadingPage(viewName: "Redirect", redirectUri: LoginViewModel.ReturnUrl);
                             }
 
                             // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
-                            return Redirect(model.ReturnUrl);
+                            return Redirect(LoginViewModel.ReturnUrl);
                         }
 
                         // request for a local page
-                        if (Url.IsLocalUrl(model.ReturnUrl))
+                        if (Url.IsLocalUrl(LoginViewModel.ReturnUrl))
                         {
-                            return Redirect(model.ReturnUrl);
+                            return Redirect(LoginViewModel.ReturnUrl);
                         }
 
-                        if (string.IsNullOrEmpty(model.ReturnUrl))
+                        if (string.IsNullOrEmpty(LoginViewModel.ReturnUrl))
                         {
                             return Redirect("~/");
                         }
@@ -108,23 +117,22 @@ namespace NGordat.IdentityServer.STS.Pages.Account
 
                     if (result.RequiresTwoFactor)
                     {
-                        return RedirectToAction(nameof(LoginWith2fa), new { model.ReturnUrl, RememberMe = model.RememberLogin });
+                        return RedirectToPage("LoginWith2fa", new { LoginViewModel.ReturnUrl, RememberMe = LoginViewModel.RememberLogin });
                     }
 
                     if (result.IsLockedOut)
                     {
-                        return View("Lockout");
+                        //return View("Lockout");
+                        return Partial("Lockout");
                     }
                 }
-                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId: context?.Client.ClientId));
+                await _eventService.RaiseAsync(new UserLoginFailureEvent(LoginViewModel.Username, "invalid credentials", clientId: context?.Client.ClientId));
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
             }
 
             // something went wrong, show form with error
-            var vm = await BuildLoginViewModelAsync(model);
-            return View(vm);
-
-            return Page(vm);
+            LoginViewModel = await _accountService.BuildLoginViewModelAsync(LoginViewModel.ReturnUrl);
+            return Page();
         }
 
         public async Task<IActionResult> OnPostCancelAsync()
@@ -143,7 +151,7 @@ namespace NGordat.IdentityServer.STS.Pages.Account
                 {
                     // The client is native, so this change in how to
                     // return the response is for better UX for the end user.
-                    return LoadingPage(page: this, viewName: "Redirect", redirectUri: LoginViewModel.ReturnUrl);
+                    return this.LoadingPage(viewName: "Redirect", redirectUri: LoginViewModel.ReturnUrl);
                 }
 
                 return Redirect(LoginViewModel.ReturnUrl);
@@ -151,14 +159,6 @@ namespace NGordat.IdentityServer.STS.Pages.Account
 
             // since we don't have a valid context, then we just go back to the home page
             return Redirect("~/");
-        }
-
-        public static IActionResult LoadingPage(this PageModel page, string viewName, string redirectUri)
-        {
-            page.HttpContext.Response.StatusCode = 200;
-            page.HttpContext.Response.Headers["Location"] = "";
-
-            return page.Partial(viewName, new RedirectViewModel { RedirectUrl = redirectUri });
         }
     }
 }

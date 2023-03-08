@@ -24,7 +24,7 @@ builder.Services.AddSingleton(rootConfiguration);
 // Add services to the container.
 
 // Register the Db context used by STS and specifies the primary key type for our user system.
-builder.Services.RegisterDbContexts<Guid>(builder.Configuration);
+builder.Services.RegisterDbContexts(builder.Configuration);
 
 // Register local services
 builder.Services.AddScoped<AccountService>();
@@ -36,13 +36,13 @@ builder.Services.RegisterAuthentication<Guid>(builder.Configuration);
 builder.Services.RegisterHstsOptions();
 
 // Register pages and localization
-builder.Services.AddRazorWithLocalization<UserIdentity<Guid>, Guid>(builder.Configuration);
+builder.Services.AddRazorWithLocalization<UserIdentity, Guid>(builder.Configuration);
 
 // Register authorization
 builder.Services.RegisterAuthorization(builder.Configuration);
 
 // Register Health Checks
-builder.Services.AddIdentityHealthChecks<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, IdentityServerIdentityDbContext<Guid>, IdentityServerDataProtectionDbContext>(builder.Configuration);
+builder.Services.AddIdentityHealthChecks<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, IdentityServerIdentityDbContext, IdentityServerDataProtectionDbContext>(builder.Configuration);
 
 var app = builder.Build();
 

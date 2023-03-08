@@ -19,8 +19,7 @@ namespace NGordat.IdentityServer.Dal.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static void RegisterDbContexts<TKey>(this IServiceCollection services, IConfiguration configuration)
-            where TKey : IEquatable<TKey>
+        public static void RegisterDbContexts(this IServiceCollection services, IConfiguration configuration)
         {
             // Following line is specific to postgres ef provider.
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -28,7 +27,7 @@ namespace NGordat.IdentityServer.Dal.Extensions
             services.AddDbContext<IdentityServerConfigurationDbContext>(options => options.UseNpgsql(configuration.GetConnectionString(typeof(IdentityServerConfigurationDbContext).GetFriendlyName())));
             services.AddDbContext<IdentityServerDataProtectionDbContext>(options => options.UseNpgsql(configuration.GetConnectionString(typeof(IdentityServerDataProtectionDbContext).GetFriendlyName())));
             services.AddDbContext<IdentityServerPersistedGrantDbContext>(options => options.UseNpgsql(configuration.GetConnectionString(typeof(IdentityServerPersistedGrantDbContext).GetFriendlyName())));
-            services.AddDbContext<IdentityServerIdentityDbContext<TKey>>(options => options.UseNpgsql(configuration.GetConnectionString(typeof(IdentityServerIdentityDbContext<TKey>).GetFriendlyName())));
+            services.AddDbContext<IdentityServerIdentityDbContext>(options => options.UseNpgsql(configuration.GetConnectionString(typeof(UserIdentityUserToken).GetFriendlyName())));
         }
     }
 }

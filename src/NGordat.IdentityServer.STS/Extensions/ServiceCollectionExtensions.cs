@@ -36,8 +36,8 @@ namespace NGordat.IdentityServer.STS.Extensions
         public static void RegisterAuthentication<TKey>(this IServiceCollection services, IConfiguration configuration)
             where TKey : IEquatable<TKey>
         {
-            services.AddAuthenticationServices<IdentityServerIdentityDbContext<TKey>, UserIdentity<TKey>, UserIdentityRole<TKey>>(configuration);
-            services.AddIdentityServer<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, UserIdentity<TKey>>(configuration);
+            services.AddAuthenticationServices<IdentityServerIdentityDbContext, UserIdentity, UserIdentityRole>(configuration);
+            services.AddIdentityServer<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, UserIdentity>(configuration);
         }
 
         private static void AddAuthenticationServices<TIdentityDbContext, TUserIdentity, TUserIdentityRole>(this IServiceCollection services, IConfiguration configuration) where TIdentityDbContext : DbContext

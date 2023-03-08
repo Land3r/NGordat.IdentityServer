@@ -10,10 +10,9 @@ using System.Threading.Tasks;
 
 namespace NGordat.IdentityServer.Dal
 {
-    public class IdentityServerIdentityDbContext<TKey> : IdentityDbContext<UserIdentity<TKey>, UserIdentityRole<TKey>, TKey, UserIdentityUserClaim<TKey>, UserIdentityUserRole<TKey>, UserIdentityUserLogin<TKey>, UserIdentityRoleClaim<TKey>, UserIdentityUserToken<TKey>>
-        where TKey : IEquatable<TKey>
+    public class IdentityServerIdentityDbContext : IdentityDbContext<UserIdentity, UserIdentityRole, Guid, UserIdentityUserClaim, UserIdentityUserRole, UserIdentityUserLogin, UserIdentityRoleClaim, UserIdentityUserToken>
     {
-        public IdentityServerIdentityDbContext(DbContextOptions<IdentityServerIdentityDbContext<TKey>> options) : base(options)
+        public IdentityServerIdentityDbContext(DbContextOptions<IdentityServerIdentityDbContext> options) : base(options)
         {
         }
 
@@ -29,14 +28,14 @@ namespace NGordat.IdentityServer.Dal
         {
             builder.HasDefaultSchema(SchemaConsts.IdentitySchema);
 
-            builder.Entity<UserIdentityRole<TKey>>().ToTable(TableConsts.IdentityRoles);
-            builder.Entity<UserIdentityRoleClaim<TKey>>().ToTable(TableConsts.IdentityRoleClaims);
-            builder.Entity<UserIdentityUserRole<TKey>>().ToTable(TableConsts.IdentityUserRoles);
+            builder.Entity<UserIdentityRole>().ToTable(TableConsts.IdentityRoles);
+            builder.Entity<UserIdentityRoleClaim>().ToTable(TableConsts.IdentityRoleClaims);
+            builder.Entity<UserIdentityUserRole>().ToTable(TableConsts.IdentityUserRoles);
 
-            builder.Entity<UserIdentity<TKey>>().ToTable(TableConsts.IdentityUsers);
-            builder.Entity<UserIdentityUserLogin<TKey>>().ToTable(TableConsts.IdentityUserLogins);
-            builder.Entity<UserIdentityUserClaim<TKey>>().ToTable(TableConsts.IdentityUserClaims);
-            builder.Entity<UserIdentityUserToken<TKey>>().ToTable(TableConsts.IdentityUserTokens);
+            builder.Entity<UserIdentity>().ToTable(TableConsts.IdentityUsers);
+            builder.Entity<UserIdentityUserLogin>().ToTable(TableConsts.IdentityUserLogins);
+            builder.Entity<UserIdentityUserClaim>().ToTable(TableConsts.IdentityUserClaims);
+            builder.Entity<UserIdentityUserToken>().ToTable(TableConsts.IdentityUserTokens);
         }
     }
 }

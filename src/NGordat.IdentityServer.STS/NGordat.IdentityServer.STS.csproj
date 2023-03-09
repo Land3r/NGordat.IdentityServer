@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
-    <Content Remove="wwwroot\js\_generic.ts" />
     <Content Remove="wwwroot\lib\.gitignore" />
   </ItemGroup>
 
@@ -48,12 +47,6 @@
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.3" />
     <PackageReference Include="Microsoft.Identity.Web" Version="1.26.0" />
     <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="3.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\js\_generic.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
   </ItemGroup>
 
 </Project>

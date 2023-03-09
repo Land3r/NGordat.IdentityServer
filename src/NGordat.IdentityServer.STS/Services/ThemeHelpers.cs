@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace NGordat.IdentityServer.STS.Services
 {
@@ -6,16 +7,23 @@ namespace NGordat.IdentityServer.STS.Services
     {
         public const string CookieThemeKey = "Application.Theme";
 
-        public const string DefaultTheme = "default";
+        public const string DefaultTheme = "no-theme";
+        private static readonly IList<string> AvailableThemes = new List<string>()
+        {   "darkly", "cosmo", "cerulean", "cyborg", "flatly", "journal", "litera", "lumen", "lux",
+            "materia", "minty", "pulse", "sandstone", "simplex", "sketchy", "slate", "solar", "spacelab", "superhero",
+            "united", "yeti"
+        };
+
+        public const string NoThemeKey = "no-theme";
+        public const bool NoThemeAvailable = true;
 
         public static ICollection<string> GetThemes()
         {
-            return new List<string>
+            if (NoThemeAvailable)
             {
-                "default", "darkly", "cosmo", "cerulean", "cyborg", "flatly", "journal", "litera", "lumen", "lux",
-                "materia", "minty", "pulse", "sandstone", "simplex", "sketchy", "slate", "solar", "spacelab", "superhero",
-                "united", "yeti"
-            };
+                return AvailableThemes.Prepend(NoThemeKey).ToList();
+            }
+            return AvailableThemes;
         }
     }
 }

@@ -25,6 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Scripts\site.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\NGordat.Identity.Domain\NGordat.Identity.Domain.csproj" />
     <ProjectReference Include="..\NGordat.IdentityServer.Dal\NGordat.IdentityServer.Dal.csproj" />
     <ProjectReference Include="..\NGordat.Razor.Helpers\NGordat.Razor.Helpers.csproj" />
@@ -47,6 +51,10 @@
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.3" />
     <PackageReference Include="Microsoft.Identity.Web" Version="1.26.0" />
     <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
 </Project>

@@ -5,9 +5,7 @@
     "removeComments": false,
     "sourceMap": true,
     "target": "es5",
-    "moduleResolution": "node",
-    "outFile": "wwwroot/js/site.js",
-    "module": "AMD"
+    "outDir": "wwwroot/js/"
   },
   "exclude": [
     "node_modules",

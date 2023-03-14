@@ -15,13 +15,21 @@
 @if (themes.Count > 1)
 {
     <div title="@Localizer["Request culture provider:"] @Context.Request.Cookies[ThemeHelpers.CookieThemeKey]">
-        <form id="SelectTheme" asp-controller="Home"
-              asp-action="SelectTheme" asp-route-returnUrl="@returnUrl"
-              method="post" class="form-inline justify-content-end" role="form">
+        <form id="SelectTheme" method="post" class="form-inline justify-content-end" role="form">
             <div class="form-group">
                 <label asp-for="@Context.Request.Cookies[ThemeHelpers.CookieThemeKey]" class="me-2">@Localizer["Theme:"]</label>
-                <select name="theme" onchange="this.form.submit();" class="form-control" asp-for="@selectedTheme" asp-items="themes"></select>
+                <select name="theme" onchange="test(this);" class="form-control" asp-for="@selectedTheme" asp-items="themes" id="themeSelect"></select>
             </div>
         </form>
     </div>
 }
+
+<script>
+
+    function test(val)
+    {
+        var e = document.getElementById('themeSelect');
+        console.log(e.value);
+        setApplicationTheme(e.value);
+    }
+</script>

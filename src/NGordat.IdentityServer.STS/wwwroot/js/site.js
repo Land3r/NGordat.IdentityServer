@@ -57,4 +57,28 @@ function deleteCookie(name) {
         expires: -1
     });
 }
+function setApplicationTheme(themeName) {
+    // Warning; The following name must match the one in ThemeHelpers.CookieThemeKey
+    var cookieName = 'Application.Theme';
+    // Warning; The following value must match the one in ThemeHelpers.NoThemeKey
+    var noThemeKey = 'no-theme';
+    var instantUpdate = true;
+    var themeLinkId = "theme-link";
+    setCookie(cookieName, themeName, {
+        path: '/',
+        secure: true,
+    });
+    if (instantUpdate) {
+        var url = themeName === noThemeKey ?
+            "https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" :
+            "https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.2.3/" + themeName + "/bootstrap.min.css";
+        var onErrorUrl = themeName === noThemeKey ?
+            "this.onerror=null;this.href='/lib/bootstrap/dist/css/bootstrap.min.css';" :
+            "this.onerror=null;this.href='/lib/bootswatch/{$themeName}/bootstrap.min.css';";
+        var elm = document.getElementById(themeLinkId);
+        elm.href = url;
+        elm.crossOrigin = null;
+        //elm.onerror = onErrorUrl;
+    }
+}
 //# sourceMappingURL=site.js.map

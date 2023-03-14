@@ -8,11 +8,11 @@
 
 @if(activeTheme != ThemeHelpers.NoThemeKey)
 {
-    <link rel="stylesheet" href="@string.Concat("https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.2.3/", Context.Request.Cookies[ThemeHelpers.CookieThemeKey], "/bootstrap.min.css")"
+    <link id="theme-link" rel="stylesheet" href="@string.Concat("https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.2.3/", Context.Request.Cookies[ThemeHelpers.CookieThemeKey], "/bootstrap.min.css")"
     onerror="this.onerror=null;this.href='@Url.Content(string.Concat("~/lib/bootswatch/", Context.Request.Cookies[ThemeHelpers.CookieThemeKey], "/bootstrap.min.css"))';" />
 }
 else
 {
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    <link id="theme-link"  rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"
     onerror="this.onerror=null;this.href='@Url.Content("~/lib/bootstrap/dist/css/bootstrap.min.css")';" />
 }

@@ -24,8 +24,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title asp-site="test" asp-title="@ViewData["Title"]"></title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/NGordat.IdentityServer.STS.styles.css" asp-append-version="true" />
 
     <link rel="icon" type="image/x-icon" href="@Url.Content(RootConfiguration.AdminConfiguration.FaviconUri)" />
     <link rel="shortcut icon" type="image/x-icon" href="@Url.Content(@RootConfiguration.AdminConfiguration.FaviconUri)" />
@@ -36,12 +34,12 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent/3.1.1/cookieconsent.min.css" integrity="sha512-LQ97camar/lOliT/MqjcQs5kWgy6Qz/cCRzzRzUCfv0fotsCTC9ZHXaPQmJV8Xu/PVALfJZ7BDezl5lW3/qBxg==" crossorigin="anonymous" referrerpolicy="no-referrer"
               onerror="this.onerror=null;this.href='@Url.Content("~/lib/cookieconsent/cookieconsent.min.css"))';" />
         @* Fontawesome *@
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/fontawesome.min.css" integrity="sha512-giQeaPns4lQTBMRpOOHsYnGw1tGVzbAIHUyHRgn7+6FmiEgGGjaG0T2LZJmAPMzRCl+Cug0ItQ2xDZpTmEc+CQ==" crossorigin="anonymous" referrerpolicy="no-referrer"
+@*        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/fontawesome.min.css" integrity="sha512-giQeaPns4lQTBMRpOOHsYnGw1tGVzbAIHUyHRgn7+6FmiEgGGjaG0T2LZJmAPMzRCl+Cug0ItQ2xDZpTmEc+CQ==" crossorigin="anonymous" referrerpolicy="no-referrer"
               onerror="this.onerror=null;this.href='@Url.Content("~/lib/font-awesome/css/fontawesome.css"))';" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/regular.min.css" integrity="sha512-k2UAKyvfA7Xd/6FrOv5SG4Qr9h4p2oaeshXF99WO3zIpCsgTJ3YZELDK0gHdlJE5ls+Mbd5HL50b458z3meB/Q==" crossorigin="anonymous" referrerpolicy="no-referrer"
               onerror="this.onerror=null;this.href='@Url.Content("~/lib/font-awesome/css/regular.css"))';" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/solid.min.css" integrity="sha512-6mc0R607di/biCutMUtU9K7NtNewiGQzrvWX4bWTeqmljZdJrwYvKJtnhgR+Ryvj+NRJ8+NnnCM/biGqMe/iRA==" crossorigin="anonymous" referrerpolicy="no-referrer"
-              onerror="this.onerror=null;this.href='@Url.Content("~/lib/font-awesome/css/solid.css"))';" />
+              onerror="this.onerror=null;this.href='@Url.Content("~/lib/font-awesome/css/solid.css"))';" />*@
         @* Fontawesome additionnal css areas
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/brands.min.css" integrity="sha512-G/T7HQJXSeNV7mKMXeJKlYNJ0jrs8RsWzYG7rVACye+qrcUhEAYKYzaa+VFy6eFzM2+/JT1Q+eqBbZFSHmJQew==" crossorigin="anonymous" referrerpolicy="no-referrer"
@@ -136,9 +134,10 @@
         @*<script src="~/dist/js/bundle.min.js" asp-append-version="true"></script>*@
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/lib/cookieconsent/cookieconsent.min.js"></script>
-        <script src="~/lib/font-awesome/js/fontawesome.js"></script>
+        <script src="https://kit.fontawesome.com/bd70491952.js" crossorigin="anonymous"></script>
+        @*      <script src="~/lib/font-awesome/js/fontawesome.js"></script>
         <script src="~/lib/font-awesome/js/regular.js"></script>
-        <script src="~/lib/font-awesome/js/solid.js"></script>
+        <script src="~/lib/font-awesome/js/solid.js"></script>*@
         @*<script src="~/lib/font-awesome/js/brands.js"></script>*@
         <script src="~/lib/popper.js/umd/popper.min.js"></script>
     </environment>
@@ -148,12 +147,14 @@
                 asp-fallback-src="~/lib/bootstrap/js/bootstrap.min.js" asp-fallback-test="typeof($.fn.modal)"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent/3.1.1/cookieconsent.min.js" integrity="sha512-yXXqOFjdjHNH1GND+1EO0jbvvebABpzGKD66djnUfiKlYME5HGMUJHoCaeE4D5PTG2YsSJf6dwqyUUvQvS0vaA==" crossorigin="anonymous" referrerpolicy="no-referrer"
                 asp-fallback-src="~/lib/cookieconsent/cookieconsent.min.js" asp-fallback-test="typeof(window.cookieconsent)"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/fontawesome.min.js" integrity="sha512-nKvEIGRKw2OQCR34yLfnWnvrOBxidLG9aK+vzsBxCZ/9ZxgcS4FrYcN+auWUTkCitTVZAt82InDKJ7x+QtKu6g==" crossorigin="anonymous" referrerpolicy="no-referrer"
+        <script src="https://kit.fontawesome.com/bd70491952.js" crossorigin="anonymous"></script>
+
+        @*<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/fontawesome.min.js" integrity="sha512-nKvEIGRKw2OQCR34yLfnWnvrOBxidLG9aK+vzsBxCZ/9ZxgcS4FrYcN+auWUTkCitTVZAt82InDKJ7x+QtKu6g==" crossorigin="anonymous" referrerpolicy="no-referrer"
                 asp-fallback-src="~/lib/font-awesome/js/fontawesome.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/regular.min.js" integrity="sha512-H1PxHAj13z6ipNSlyM5ftUSOSvQXeH0eOsPjEpSOcjSROPLIxhKB0PLGSAbFDqEqe2vd2xPkUnEfVtBS/RNlmw==" crossorigin="anonymous" referrerpolicy="no-referrer"
                 asp-fallback-src="~/lib/font-awesome/js/regular.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/solid.min.js" integrity="sha512-F0Gp9qi8/3qyo+62Pi1ZgGe6hAUxPbzOnqhhpJYAMUGDmOys95dCRCVYfQawlUeoGp1Rj/K9V7NboA9sQ9BtKw==" crossorigin="anonymous" referrerpolicy="no-referrer"
-                asp-fallback-src="~/lib/font-awesome/js/solid.min.js"></script>
+                asp-fallback-src="~/lib/font-awesome/js/solid.min.js"></script>*@
         @*
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/brands.min.js" integrity="sha512-rbApvPERCHI8cOpTOKfMLVJNlXSCs4QRu8UsJ0HieeHyNKkHtUIQTZq3hv0pT7X0SUsLrRGEUsMTTpzwpdeIuw==" crossorigin="anonymous" referrerpolicy="no-referrer"
         asp-fallback-src="~/lib/font-awesome/js/brands.min.js"></script>*@

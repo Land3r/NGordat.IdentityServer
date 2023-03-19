@@ -1,0 +1,12 @@
+﻿@page
+@inject IStringLocalizer<LockoutModel> Localizer
+@model NGordat.IdentityServer.STS.Pages.Account.RegisterFailureModel
+@{
+}
+
+<h1>@ViewData["Title"]</h1>
+<div>
+    <p class="text-danger">
+        @Localizer["Error"]
+    </p>
+</div>

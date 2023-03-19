@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using NGordat.Helpers.Hosting.Extensions;
 using NGordat.Helpers.Hosting.Authentication;
 using Microsoft.AspNetCore.Authentication;
+using Duende.IdentityServer.EntityFramework.Options;
 
 namespace NGordat.IdentityServer.Dal.Extensions
 {
@@ -27,7 +28,20 @@ namespace NGordat.IdentityServer.Dal.Extensions
             services.AddDbContext<IdentityServerConfigurationDbContext>(options => options.UseNpgsql(configuration.GetConnectionString(typeof(IdentityServerConfigurationDbContext).GetFriendlyName())));
             services.AddDbContext<IdentityServerDataProtectionDbContext>(options => options.UseNpgsql(configuration.GetConnectionString(typeof(IdentityServerDataProtectionDbContext).GetFriendlyName())));
             services.AddDbContext<IdentityServerPersistedGrantDbContext>(options => options.UseNpgsql(configuration.GetConnectionString(typeof(IdentityServerPersistedGrantDbContext).GetFriendlyName())));
-            services.AddDbContext<IdentityServerIdentityDbContext>(options => options.UseNpgsql(configuration.GetConnectionString(typeof(UserIdentityUserToken).GetFriendlyName())));
+            services.AddDbContext<IdentityServerIdentityDbContext>(options => options.UseNpgsql(configuration.GetConnectionString(typeof(IdentityServerIdentityDbContext).GetFriendlyName())));
         }
+
+        #region Duende
+
+        public static void AddDuendeStores(this IServiceCollection services)
+        {
+            var operationalStoreOptions = new OperationalStoreOptions();
+            services.AddSingleton(operationalStoreOptions);
+
+            var storeOptions = new ConfigurationStoreOptions();
+            services.AddSingleton(storeOptions);
+        }
+
+        #endregion Duende
     }
 }

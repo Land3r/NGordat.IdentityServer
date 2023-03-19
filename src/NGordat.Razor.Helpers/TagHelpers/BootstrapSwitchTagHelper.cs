@@ -24,18 +24,9 @@ namespace NGordat.Razor.Helpers.TagHelpers
                 dataType = presentationAttr.DataType;
             }
 
-            // Main div tag (input-group).
+            // Main div tag
             output.TagName = "div";
-            output.Attributes.Add("class", "input-group form-check form-switch");
-
-            // Start icon, if any.
-            //if (!string.IsNullOrEmpty(presentationAttr.Icon) && presentationAttr?.IconPosition == IconPosition.Start)
-            //{
-            //    string icon = $"<i class=\"input-group-text {presentationAttr.Icon}\"></i>";
-            //    output.Content.AppendHtml(icon);
-            //}
-
-            // Floating div (form-floating).
+            output.Attributes.Add("class", "form-check form-switch");
 
             // Input
             string input = $"<input type=\"{dataType}\" class=\"form-control form-check-input\" role=\"switch\" id=\"{id}\" name=\"{id}\"";

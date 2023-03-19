@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "NGordat.IdentityServer.Dal.Migrations": {
+      "commandName": "Project",
+      "commandLineArgs": "-m"
+    }
+  }
+}

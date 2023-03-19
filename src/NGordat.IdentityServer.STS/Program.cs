@@ -15,6 +15,7 @@ using NGordat.IdentityServer.Dal.Extensions;
 using NGordat.IdentityServer.STS.Extensions;
 using NGordat.IdentityServer.STS.Services;
 using System;
+using System.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,12 @@ builder.Services.RegisterDbContexts(builder.Configuration);
 
 // Register local services
 builder.Services.AddScoped<AccountService>();
+
+// Duende configuration / dal stores.
+builder.Services.AddDuendeStores();
+
+// Register email senders
+builder.Services.AddEmailSenders(builder.Configuration);
 
 // Register authentication and Identity Server
 builder.Services.RegisterAuthentication<Guid>(builder.Configuration);
@@ -78,4 +85,5 @@ app.MapHealthChecks("/health", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
+
 app.Run();

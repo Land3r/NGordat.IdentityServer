@@ -31,8 +31,10 @@ namespace NGordat.Razor.Helpers.TagHelpers
             // Start icon, if any.
             if (!string.IsNullOrEmpty(presentationAttr.Icon) && presentationAttr?.IconPosition == IconPosition.Start)
             {
-                string icon = $"<i class=\"input-group-text {presentationAttr.Icon}\"></i>";
-                output.Content.AppendHtml(icon);
+                string iconPre = $"<span class=\"input-group-text\">";
+                iconPre += $"<i class=\" {presentationAttr.Icon}\"></i>";
+                iconPre += $"</span>";
+                output.Content.AppendHtml(iconPre);
             }
 
             // Floating div (form-floating).
@@ -69,8 +71,10 @@ namespace NGordat.Razor.Helpers.TagHelpers
             // End icon, if any.
             if (!string.IsNullOrEmpty(presentationAttr.Icon) && presentationAttr?.IconPosition == IconPosition.End)
             {
-                string icon = $"<i class=\"input-group-text {presentationAttr.Icon}\"></i>";
-                output.Content.AppendHtml(icon);
+                string iconPost = $"<span class=\"input-group-text\">";
+                iconPost += $"<i class=\" {presentationAttr.Icon}\"></i>";
+                iconPost += $"</span>";
+                output.Content.AppendHtml(iconPost);
             }
         }
     }

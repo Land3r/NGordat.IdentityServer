@@ -43,17 +43,6 @@
                                         <button type="submit" class="btn btn-primary" asp-page-handler="Login">@Localizer["Continue"]</button>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-12">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="input-password">
-                                                    <span class="oi oi-lock-locked" title="Lock" aria-hidden="true"></span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 @if (Model.LoginViewModel.AllowRememberLogin)
                                 {
@@ -67,13 +56,13 @@
                                 @if (RootConfiguration.RegisterConfiguration.Enabled)
                                 {
                                     <p>Don't have an account? </p>
-                                    <a asp-action="Register" asp-controller="Account" value="register">@Localizer["Register"]</a>
+                                    <a asp-page="Register">@Localizer["Register"]</a>
                                 }
 
                                 <!--Button-->
                                 <div class="form-group row">
                                     <div class="col-sm-12">
-                                        <button class="btn btn-primary" type="button" asp-page="Register">@Localizer["Register"]</button>
+                                        <a class="btn btn-primary" type="button" asp-page="Register">@Localizer["Register"]</a>
                                         <button class="btn btn-secondary" type="button" value="cancel">@Localizer["Cancel"]</button>
                                         <a asp-action="ForgotPassword" asp-controller="Account" class="btn btn-info" value="forgot">@Localizer["Forgot"]</a>
 

@@ -1,0 +1,12 @@
+﻿@page
+@inject IStringLocalizer<RegisterConfirmationModel> Localizer
+@model NGordat.IdentityServer.STS.Pages.Account.RegisterConfirmationModel
+@{
+    ViewData["Title"] = Localizer["ConfirmEmailTitle"];
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    @Localizer["VerificationSent"]
+</p>

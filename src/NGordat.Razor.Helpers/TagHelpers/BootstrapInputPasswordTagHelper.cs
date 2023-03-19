@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace NGordat.Razor.Helpers.TagHelpers
 {
@@ -31,8 +32,10 @@ namespace NGordat.Razor.Helpers.TagHelpers
             // Start icon, if any.
             if (!string.IsNullOrEmpty(presentationAttr.Icon) && presentationAttr?.IconPosition == IconPosition.Start)
             {
-                string icon = $"<i class=\"input-group-text {presentationAttr.Icon}\"></i>";
-                output.Content.AppendHtml(icon);
+                string iconPre = $"<span class=\"input-group-text\">";
+                iconPre += $"<i class=\" {presentationAttr.Icon}\"></i>";
+                iconPre += $"</span>";
+                output.Content.AppendHtml(iconPre);
             }
 
             // Floating div (form-floating).
@@ -69,12 +72,16 @@ namespace NGordat.Razor.Helpers.TagHelpers
             // End icon, if any.
             if (!string.IsNullOrEmpty(presentationAttr.Icon) && presentationAttr?.IconPosition == IconPosition.End)
             {
-                string icon = $"<i class=\"input-group-text {presentationAttr.Icon}\"></i>";
-                output.Content.AppendHtml(icon);
+                string iconPost = $"<span class=\"input-group-text\">";
+                iconPost += $"<i class=\" {presentationAttr.Icon}\"></i>";
+                iconPost += $"</span>";
+                output.Content.AppendHtml(iconPost);
             }
 
             // Reveal password
-            string reveal = $"<i class=\"input-group-text fa fa-eye reveal-btn\" id=\"reveal{id}Btn\" onclick=\"toggleReveal('{id}', 'reveal{id}Btn')\"></i>";
+            string reveal = $"<span class=\"input-group-text\">";
+            reveal += $"<i class=\"input - group - text fa fa-eye reveal - btn\" id=\"reveal{id}Btn\" onclick=\"toggleReveal('{id}', 'reveal{id}Btn')\"></i>";
+            reveal += $"</span>";
             output.Content.AppendHtml(reveal);
         }
     }
